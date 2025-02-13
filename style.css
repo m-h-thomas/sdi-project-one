@@ -28,6 +28,17 @@ body {
   min-height: 5vh;
 }
 
+#search-button {
+  background-color: black;
+  font-family: "Hylia Serif";
+  color: gold;
+  font-size: medium;
+}
+
+#search-button:hover {
+  cursor: pointer;
+}
+
 .category-icons {
   background: url(./images/texture.jpeg);
   display: inline;
@@ -38,13 +49,17 @@ body {
   box-shadow: -1px 1px 16px 8px rgba(26, 112, 185, 0.85);
 }
 
-.category-icon-container {
+.center-row {
   display: flex;
   padding-top: 1rem;
   height: 5.125rem;
   width: 100%;
   top: 3.9rem;
   justify-content: center;
+}
+
+.category-icon-wrapper {
+  margin: 5px;
 }
 
 footer {
@@ -64,4 +79,9 @@ footer a {
   color: gold;
   text-decoration: none !important;
   margin-left: 10px;
+}
+
+.entry-info {
+  color: gold;
+  font-family: "Hylia Serif";
 }
