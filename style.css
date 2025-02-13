@@ -85,3 +85,26 @@ footer a {
   color: gold;
   font-family: "Hylia Serif";
 }
+
+.entry-region p {
+  display: flex;
+  justify-content: left;
+  white-space: pre-wrap; /* Forces line breaks and wraps text */
+}
+
+
+.entry {
+  display: inline-block;
+  margin: 15px;
+  text-align: center;
+}
+
+.entry img {
+  width: 100px; /* Adjust the size of the image */
+  height: auto;
+}
+
+.entry h5 {
+  margin-top: 10px;
+  font-size: 14px;
+}
