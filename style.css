@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Hylia Serif";
+  src: url(./font/HyliaSerifBeta-Regular.otf);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -13,9 +18,14 @@ body {
 }
 
 .header-row {
+  font-family: "Hylia Serif";
+  display: flex;
   color: gold;
   background: url(./images/texture.jpeg);
   margin-top: 0;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 5vh;
 }
 
 .category-icons {
@@ -29,20 +39,29 @@ body {
 }
 
 .category-icon-container {
+  display: flex;
   padding-top: 1rem;
   height: 5.125rem;
   width: 100%;
   top: 3.9rem;
+  justify-content: center;
 }
 
 footer {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
   background: url(./images/texture.jpeg);
-  margin-top: 100vh;
-  margin-bottom: 0;
 }
 
 footer a {
   color: gold;
-  text-decoration: none;
-  min-height: 50px;
+  text-decoration: none !important;
+  margin-left: 10px;
 }
