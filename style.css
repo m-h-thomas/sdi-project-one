@@ -111,6 +111,65 @@ footer a {
   font-size: 14px;
 }
 
-.description {
-  color: black;
+.displayed-entries {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal-width columns */
+  gap: 20px; /* Space between items */
+  padding: 20px;
+}
+
+.displayed-entries div {
+  background-image: url(./images/texture.jpeg);
+  border-radius: 8px; /* Optional: rounded corners for each entry */
+  overflow: hidden; /* Prevents image or text overflow */
+  padding: 10px;
+}
+
+.displayed-entries img {
+  width: 100%; /* Make images fill their container */
+  height: auto;
+  object-fit: cover; /* Keeps image aspect ratio, while covering the container */
+}
+
+.entry-info {
+  text-align: center;
+}
+
+.entry-info h4 {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.entry-info .description {
+  font-size: 14px;
+  color: white;
+}
+
+#compendium-main-button:hover {
+  cursor: pointer;
+}
+
+.displayed-entries .single-entry-info {
+  font-family: "Hylia Serif";
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.displayed-entries .single-entry-info h3 {
+  color: gold;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.displayed-entries .single-entry-info .description {
+  font-size: 14px;
+  color: white;
+}
+
+.displayed-entries .additional-info {
+  font-family: "Hylia Serif";
+  color: white;
 }

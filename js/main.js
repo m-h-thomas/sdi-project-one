@@ -1,5 +1,7 @@
 // console.log('My script is running');
 
+displayGallery();
+
 document.querySelector('#search-button').addEventListener("click", getEntry)
 
 function getEntry(){
@@ -10,15 +12,60 @@ function getEntry(){
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/entry/${encodedEntry}`)
     .then((response) => response.json())
     .then((compendiumData) => {
+
+      let commonLocationsHTML = '';
+      if (compendiumData.data['common_locations'] && compendiumData.data['common_locations'].length > 0) {
+        compendiumData.data['common_locations'].forEach(location => {
+          commonLocationsHTML += `<p>${location}</p>`;
+        });
+      }
+
+      let dropsHTML = '';
+      if(compendiumData.data.drops && compendiumData.data.drops.length > 0) {
+        compendiumData.data.drops.forEach(drop => {
+          dropsHTML += `<p>${drop}</p>`
+        })
+      }
+
+
       document.querySelector('.displayed-entries').innerHTML = `
-      <div>
+      <div class="single-entry-info">
         <img src="${compendiumData.data.image}" alt="${compendiumData.data.name}"/>
-      </div>
-      <div class="entry-info">
         <h3>${compendiumData.data.name}</h3>
-        <p class="description">Description: ${compendiumData.data.description}</p>
+        <p class="description">${compendiumData.data.description}</p>
+      </div>
+      <div class="single-entry-info additional-info">
+        <h3>Common Locations</h3>
+        ${commonLocationsHTML}
+        <h3>Item Drops</h3>
+        ${dropsHTML}
       </div>
     `;
+    })
+}
+
+document.querySelector('#compendium-main-button').addEventListener('click', displayGallery)
+
+function displayGallery(){
+  fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/all`)
+    .then((response) => response.json())
+    .then((allData) => {
+
+      allData.data.sort((a, b) => a.id - b.id)
+      
+      let galleryHTML = '';
+
+      allData.data.forEach((entry) => {
+        galleryHTML +=`
+          <div class="entry-info">
+            <img src="${entry.image}" alt="${entry.name}"
+            <h4>${entry.name}</h4>
+          </div>
+        `
+      })
+
+      document.querySelector('.displayed-entries').innerHTML = galleryHTML;
+
     })
 }
 
@@ -27,16 +74,17 @@ document.querySelector('#creature-button').addEventListener('click', getCreature
 function getCreatures(){
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/category/creatures`)
     .then((response) => response.json())
-    .then((allData) => {
+    .then((creatureData) => {
+
+      creatureData.data.sort((a, b) => a.id - b.id);
 
       let creaturesHTML = '';
 
-      allData.data.forEach((creature) => {
+      creatureData.data.forEach((creature) => {
         creaturesHTML += `
-          <div>
-            <img src="${creature.image}" alt="${creature.name}"/>
-          </div>
           <div class="entry-info">
+            <img src="${creature.image}" alt="${creature.name}"/>
+            <h6>${creature.id}</h6>
             <h4>${creature.name}</h4>
             <p class="description">${creature.description}</p>
           </div>
@@ -53,16 +101,17 @@ document.querySelector('#monster-button').addEventListener('click', getMonsters)
 function getMonsters(){
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/category/monsters`)
     .then((response) => response.json())
-    .then((allData) => {
+    .then((monsterData) => {
+
+      monsterData.data.sort((a, b) => a.id - b.id);
 
       let monstersHTML = '';
 
-      allData.data.forEach((monster) => {
+      monsterData.data.forEach((monster) => {
         monstersHTML += `
-          <div>
-            <img src="${monster.image}" alt="${monster.name}"/>
-          </div>
           <div class="entry-info">
+            <img src="${monster.image}" alt="${monster.name}"/>
+            <h6>${monster.id}</h6>
             <h4>${monster.name}</h4>
             <p class="description">${monster.description}</p>
           </div>
@@ -79,16 +128,17 @@ document.querySelector('#materials-button').addEventListener('click', getMateria
 function getMaterials(){
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/category/materials`)
     .then((response) => response.json())
-    .then((allData) => {
+    .then((monsterData) => {
+
+      monsterData.data.sort((a, b) => a.id - b.id)
 
       let materialsHTML = '';
 
-      allData.data.forEach((material) => {
+      monsterData.data.forEach((material) => {
         materialsHTML += `
-          <div>
-            <img src="${material.image}" alt="${material.name}"/>
-          </div>
           <div class="entry-info">
+            <img src="${material.image}" alt="${material.name}"/>
+            <h6>${material.id}</h6>
             <h4>${material.name}</h4>
             <p class="description">${material.description}</p>
           </div>
@@ -105,16 +155,17 @@ document.querySelector('#equipment-button').addEventListener('click', getEquipme
 function getEquipment(){
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/category/equipment`)
     .then((response) => response.json())
-    .then((allData) => {
+    .then((equipmentData) => {
+
+      equipmentData.data.sort((a, b) => a.id - b.id)
 
       let equipmentHTML = '';
 
-      allData.data.forEach((item) => {
+      equipmentData.data.forEach((item) => {
         equipmentHTML += `
-          <div>
-            <img src="${item.image}" alt="${item.name}"/>
-          </div>
           <div class="entry-info">
+            <img src="${item.image}" alt="${item.name}"/>
+            <h6>${item.id}</h6>
             <h4>${item.name}</h4>
             <p class="description">${item.description}</p>
           </div>
@@ -131,16 +182,17 @@ document.querySelector('#treasure-button').addEventListener('click', getTreasure
 function getTreasure(){
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/category/treasure`)
     .then((response) => response.json())
-    .then((allData) => {
+    .then((treasureData) => {
+
+      treasureData.data.sort((a, b) => a.id - b.id)
 
       let treasureHTML = '';
 
-      allData.data.forEach((item) => {
+      treasureData.data.forEach((item) => {
         treasureHTML += `
-          <div>
-            <img src="${item.image}" alt="${item.name}"/>
-          </div>
           <div class="entry-info">
+            <img src="${item.image}" alt="${item.name}"/>
+            <h6>${item.id}</h6>
             <h4>${item.name}</h4>
             <p class="description">${item.description}</p>
           </div>
