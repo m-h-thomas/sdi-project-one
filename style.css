@@ -102,9 +102,15 @@ footer a {
 .entry img {
   width: 100px; /* Adjust the size of the image */
   height: auto;
+  border: 10px solid transparent;
+  border-image: url(./images/zelda-background-frame.png) 30 round;
 }
 
 .entry h5 {
   margin-top: 10px;
   font-size: 14px;
+}
+
+.description {
+  color: black;
 }
