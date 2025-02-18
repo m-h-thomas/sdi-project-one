@@ -9,6 +9,8 @@ function getEntry(){
 
   let encodedEntry = encodeURIComponent(entry);
 
+  document.querySelector('#loading-spinner').style.display = 'block';
+
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/entry/${encodedEntry}`)
     .then((response) => response.json())
     .then((compendiumData) => {
@@ -34,7 +36,7 @@ function getEntry(){
 
       document.querySelector('.displayed-entries').innerHTML = `
       <div class="single-entry-info">
-        <img src="${compendiumData.data.image}" alt="${compendiumData.data.name}"/>
+        <img src="${compendiumData.data.image}" alt="${compendiumData.data.name}" class="entry-image"/>
         <h3>${compendiumData.data.name}</h3>
         <p class="description">${compendiumData.data.description}</p>
       </div>
@@ -50,6 +52,8 @@ function getEntry(){
     .catch((error) => {
       console.error(error);
       document.querySelector('.displayed-entries').innerHTML = `<p class="error-message">${error.message}</p>`;
+
+      hideSpinner();
     });
 
     document.querySelector('#search-input').value = '';
@@ -70,13 +74,27 @@ function displayGallery(){
       allData.data.forEach((entry) => {
         galleryHTML +=`
           <div class="entry-info">
-            <img src="${entry.image}" alt="${entry.name}"
+            <img src="${entry.image}" alt="${entry.name}" class="entry-image"/>
             <h4>${entry.name}</h4>
           </div>
         `
       })
 
       document.querySelector('.displayed-entries').innerHTML = galleryHTML;
+
+      const images = document.querySelectorAll('.entry-image');
+      let imagesLoaded = 0;
+
+      // Function to check if all images are loaded
+      images.forEach((img) => {
+        img.onload = function() {
+          imagesLoaded += 1;
+          // If all images are loaded, hide the spinner
+          if (imagesLoaded === images.length) {
+            hideSpinner();
+          }
+        };
+      });
 
     })
 }
@@ -95,7 +113,7 @@ function getCreatures(){
       creatureData.data.forEach((creature) => {
         creaturesHTML += `
           <div class="entry-info">
-            <img src="${creature.image}" alt="${creature.name}"/>
+            <img src="${creature.image}" alt="${creature.name}" class="entry-image"/>
             <h6>${creature.id}</h6>
             <h4>${creature.name}</h4>
             <p class="description">${creature.description}</p>
@@ -104,6 +122,22 @@ function getCreatures(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = creaturesHTML;
+
+
+      const images = document.querySelectorAll('.entry-image');
+      let imagesLoaded = 0;
+
+      // Function to check if all images are loaded
+      images.forEach((img) => {
+        img.onload = function() {
+          imagesLoaded += 1;
+          // If all images are loaded, hide the spinner
+          if (imagesLoaded === images.length) {
+            hideSpinner();
+          }
+        };
+      });
+
 
     })
 }
@@ -122,7 +156,7 @@ function getMonsters(){
       monsterData.data.forEach((monster) => {
         monstersHTML += `
           <div class="entry-info">
-            <img src="${monster.image}" alt="${monster.name}"/>
+            <img src="${monster.image}" alt="${monster.name}" class="entry-image"/>
             <h6>${monster.id}</h6>
             <h4>${monster.name}</h4>
             <p class="description">${monster.description}</p>
@@ -131,6 +165,20 @@ function getMonsters(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = monstersHTML;
+
+      const images = document.querySelectorAll('.entry-image');
+      let imagesLoaded = 0;
+
+      // Function to check if all images are loaded
+      images.forEach((img) => {
+        img.onload = function() {
+          imagesLoaded += 1;
+          // If all images are loaded, hide the spinner
+          if (imagesLoaded === images.length) {
+            hideSpinner();
+          }
+        };
+      });
 
     })
 }
@@ -149,7 +197,7 @@ function getMaterials(){
       monsterData.data.forEach((material) => {
         materialsHTML += `
           <div class="entry-info">
-            <img src="${material.image}" alt="${material.name}"/>
+            <img src="${material.image}" alt="${material.name}" class="entry-image"/>
             <h6>${material.id}</h6>
             <h4>${material.name}</h4>
             <p class="description">${material.description}</p>
@@ -158,6 +206,20 @@ function getMaterials(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = materialsHTML;
+
+      const images = document.querySelectorAll('.entry-image');
+      let imagesLoaded = 0;
+
+      // Function to check if all images are loaded
+      images.forEach((img) => {
+        img.onload = function() {
+          imagesLoaded += 1;
+          // If all images are loaded, hide the spinner
+          if (imagesLoaded === images.length) {
+            hideSpinner();
+          }
+        };
+      });
 
     })
 }
@@ -176,7 +238,7 @@ function getEquipment(){
       equipmentData.data.forEach((item) => {
         equipmentHTML += `
           <div class="entry-info">
-            <img src="${item.image}" alt="${item.name}"/>
+            <img src="${item.image}" alt="${item.name}" class="entry-image"/>
             <h6>${item.id}</h6>
             <h4>${item.name}</h4>
             <p class="description">${item.description}</p>
@@ -185,6 +247,20 @@ function getEquipment(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = equipmentHTML;
+
+      const images = document.querySelectorAll('.entry-image');
+      let imagesLoaded = 0;
+
+      // Function to check if all images are loaded
+      images.forEach((img) => {
+        img.onload = function() {
+          imagesLoaded += 1;
+          // If all images are loaded, hide the spinner
+          if (imagesLoaded === images.length) {
+            hideSpinner();
+          }
+        };
+      });
 
     })
 }
@@ -203,7 +279,7 @@ function getTreasure(){
       treasureData.data.forEach((item) => {
         treasureHTML += `
           <div class="entry-info">
-            <img src="${item.image}" alt="${item.name}"/>
+            <img src="${item.image}" alt="${item.name}" class="entry-image"/>
             <h6>${item.id}</h6>
             <h4>${item.name}</h4>
             <p class="description">${item.description}</p>
@@ -213,7 +289,25 @@ function getTreasure(){
 
       document.querySelector('.displayed-entries').innerHTML = treasureHTML;
 
+      const images = document.querySelectorAll('.entry-image');
+      let imagesLoaded = 0;
+
+      // Function to check if all images are loaded
+      images.forEach((img) => {
+        img.onload = function() {
+          imagesLoaded += 1;
+          // If all images are loaded, hide the spinner
+          if (imagesLoaded === images.length) {
+            hideSpinner();
+          }
+        };
+      });
+
     })
+}
+
+function hideSpinner(){
+  document.querySelector('#loading-spinner').style.display = 'none';
 }
 
 /*
