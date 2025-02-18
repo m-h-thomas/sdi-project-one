@@ -24,14 +24,58 @@ function getEntry(){
         compendiumData.data['common_locations'].forEach(location => {
           commonLocationsHTML += `<p>${location}</p>`;
         });
+      } else {
+        commonLocationsHTML += `<p>None</p>`
       }
 
       let dropsHTML = '';
-      if(compendiumData.data.drops && compendiumData.data.drops.length > 0) {
-        compendiumData.data.drops.forEach(drop => {
-          dropsHTML += `<p>${drop}</p>`
-        })
-      }
+        if(compendiumData.data.category === 'monsters' || compendiumData.data.category === 'treasure')
+          if(compendiumData.data.drops && compendiumData.data.drops.length > 0) {
+            dropsHTML += `<h3>Item Drops</h3>`
+            compendiumData.data.drops.forEach(drop => {
+              dropsHTML += `
+              <p>${drop}</p>`
+            })
+          } else {
+            dropsHTML += `<p>None</p>`;
+          }
+
+
+      let propertiesHTML = '';
+        if(compendiumData.data.category === 'equipment')
+          if (compendiumData.data.properties) {
+            propertiesHTML += `
+            <h3>Properties</h3>
+            <p>Attack: ${compendiumData.data.properties.attack}</p>
+            <p>Defense: ${compendiumData.data.properties.defense}</p>`;
+          } else {
+            propertiesHTML += `<p>None</p>`;
+          }
+
+
+      let edibleCreatureHTML = '';
+        if(compendiumData.data.category === 'creatures' &&  compendiumData.data.edible === true)
+          if (compendiumData.data.edible) {
+            edibleCreatureHTML += `
+            <h3>Hearts Recovered</h3>
+            <p>${compendiumData.data["hearts_recovered"]}</p>`;
+          } else {
+            edibleCreatureHTML += `<p>None</p>`;
+          }
+
+      let materialDataHTML = '';
+        if(compendiumData.data.category === 'materials')
+          if(compendiumData.data["hearts_recovered"] || compendiumData.data["cooking_effect"]){
+            materialDataHTML += `
+            <h3>Hearts Recovered</h3>
+            <p>${compendiumData.data["hearts_recovered"]}</p>
+            <h3>Cooking Effect</h3>
+            <p>${compendiumData.data["cooking_effect"]}</p>
+           `;
+          } else {
+            materialDataHTML += `<p>None</p>`;
+          }
+
 
 
       document.querySelector('.displayed-entries').innerHTML = `
@@ -43,9 +87,12 @@ function getEntry(){
       <div class="single-entry-info additional-info">
         <h3>Common Locations</h3>
         ${commonLocationsHTML}
-        <h3>Item Drops</h3>
         ${dropsHTML}
+        ${propertiesHTML}
+        ${edibleCreatureHTML}
+        ${materialDataHTML}
       </div>
+
     `;
     })
 
@@ -57,6 +104,8 @@ function getEntry(){
     });
 
     document.querySelector('#search-input').value = '';
+
+    hideSpinner();
 
 }
 

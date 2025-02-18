@@ -113,7 +113,7 @@ footer a {
 
 .displayed-entries {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   padding: 20px;
 }
@@ -154,7 +154,6 @@ footer a {
   font-family: "Hylia Serif";
   text-align: center;
   display: grid;
-  grid-template-columns: 1fr;
 }
 
 .displayed-entries .single-entry-info h3 {
