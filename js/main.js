@@ -7,11 +7,15 @@ document.querySelector('#search-button').addEventListener("click", getEntry)
 function getEntry(){
   let entry = document.querySelector('#search-input').value;
 
-  let encodedEntry = encodeURIComponent(entry); 
+  let encodedEntry = encodeURIComponent(entry);
 
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/entry/${encodedEntry}`)
     .then((response) => response.json())
     .then((compendiumData) => {
+
+      if (!compendiumData.data || Object.keys(compendiumData.data).length === 0) {
+        throw new Error('Entry not found');
+      }
 
       let commonLocationsHTML = '';
       if (compendiumData.data['common_locations'] && compendiumData.data['common_locations'].length > 0) {
@@ -42,6 +46,14 @@ function getEntry(){
       </div>
     `;
     })
+
+    .catch((error) => {
+      console.error(error);
+      document.querySelector('.displayed-entries').innerHTML = `<p class="error-message">${error.message}</p>`;
+    });
+
+    document.querySelector('#search-input').value = '';
+
 }
 
 document.querySelector('#compendium-main-button').addEventListener('click', displayGallery)
@@ -52,7 +64,7 @@ function displayGallery(){
     .then((allData) => {
 
       allData.data.sort((a, b) => a.id - b.id)
-      
+
       let galleryHTML = '';
 
       allData.data.forEach((entry) => {
@@ -92,7 +104,7 @@ function getCreatures(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = creaturesHTML;
-      
+
     })
 }
 
@@ -119,7 +131,7 @@ function getMonsters(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = monstersHTML;
-      
+
     })
 }
 
@@ -146,7 +158,7 @@ function getMaterials(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = materialsHTML;
-      
+
     })
 }
 
@@ -173,7 +185,7 @@ function getEquipment(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = equipmentHTML;
-      
+
     })
 }
 
@@ -200,7 +212,7 @@ function getTreasure(){
       })
 
       document.querySelector('.displayed-entries').innerHTML = treasureHTML;
-      
+
     })
 }
 
