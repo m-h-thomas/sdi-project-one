@@ -10,4 +10,4 @@ The MVP has three primary functions
 
 
 ### Example Page
-![Compendium Main Page](/home/mhthomas/projects/sdi-project-one/images/project-one-main-page.png "Compendium Main Page")
+![Compendium Main Page](/images/project-one-main-page.png "Compendium Main Page")
