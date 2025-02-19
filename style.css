@@ -47,6 +47,7 @@ body {
 .category-icon-hover:hover {
   transform: scale(1.2);
   box-shadow: -1px 1px 16px 8px rgba(26, 112, 185, 0.85);
+  cursor: pointer;
 }
 
 .center-row {
