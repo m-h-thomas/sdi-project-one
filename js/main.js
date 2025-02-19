@@ -63,6 +63,17 @@ function getEntry(){
             edibleCreatureHTML += `<p>None</p>`;
           }
 
+
+      let nonEdibleCreatureHTML = '';
+      if(compendiumData.data.category === 'creatures')
+        nonEdibleCreatureHTML += `<h3>Item Drops</h3>`
+         if (compendiumData.data.drops && compendiumData.data.drops.length > 0) {
+            nonEdibleCreatureHTML += `
+            <p>${compendiumData.data.drops}</p>`;
+          } else {
+            nonEdibleCreatureHTML += `<p>None</p>`;
+          }
+
       let materialDataHTML = '';
         if(compendiumData.data.category === 'materials')
           if(compendiumData.data["hearts_recovered"] || compendiumData.data["cooking_effect"]){
@@ -90,6 +101,7 @@ function getEntry(){
         ${dropsHTML}
         ${propertiesHTML}
         ${edibleCreatureHTML}
+        ${nonEdibleCreatureHTML}
         ${materialDataHTML}
       </div>
 
@@ -167,6 +179,19 @@ function getEntryByName(entryName) {
           edibleCreatureHTML += `<p>None</p>`;
         }
 
+
+      let nonEdibleCreatureHTML = '';
+      if(compendiumData.data.category === 'creatures')
+        nonEdibleCreatureHTML += `<h3>Item Drops</h3>`
+         if (compendiumData.data.drops && compendiumData.data.drops.length > 0) {
+            nonEdibleCreatureHTML += `
+            <p>${compendiumData.data.drops}</p>`;
+          } else {
+            nonEdibleCreatureHTML += `<p>None</p>`;
+          }
+
+
+
       let materialDataHTML = '';
       if (compendiumData.data.category === 'materials')
         if (compendiumData.data["hearts_recovered"] || compendiumData.data["cooking_effect"]) {
@@ -191,6 +216,7 @@ function getEntryByName(entryName) {
           ${dropsHTML}
           ${propertiesHTML}
           ${edibleCreatureHTML}
+          ${nonEdibleCreatureHTML}
           ${materialDataHTML}
         </div>
       `;
