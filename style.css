@@ -238,3 +238,7 @@ footer a {
     opacity:1;
   }
 }
+
+.entry-image:hover {
+  cursor: pointer;
+}
