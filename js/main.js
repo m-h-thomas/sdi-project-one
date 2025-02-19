@@ -111,6 +111,104 @@ function getEntry(){
 
 document.querySelector('#compendium-main-button').addEventListener('click', displayGallery)
 
+
+
+function getEntryByName(entryName) {
+  let encodedEntry = encodeURIComponent(entryName);
+
+  document.querySelector('#loading-spinner').style.display = 'block';
+
+  fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/entry/${encodedEntry}`)
+    .then((response) => response.json())
+    .then((compendiumData) => {
+
+      if (!compendiumData.data || Object.keys(compendiumData.data).length === 0) {
+        throw new Error('Entry not found');
+      }
+
+      let commonLocationsHTML = '';
+      if (compendiumData.data['common_locations'] && compendiumData.data['common_locations'].length > 0) {
+        compendiumData.data['common_locations'].forEach(location => {
+          commonLocationsHTML += `<p>${location}</p>`;
+        });
+      } else {
+        commonLocationsHTML += `<p>None</p>`
+      }
+
+      let dropsHTML = '';
+      if (compendiumData.data.category === 'monsters' || compendiumData.data.category === 'treasure')
+        if (compendiumData.data.drops && compendiumData.data.drops.length > 0) {
+          dropsHTML += `<h3>Item Drops</h3>`;
+          compendiumData.data.drops.forEach(drop => {
+            dropsHTML += `<p>${drop}</p>`;
+          });
+        } else {
+          dropsHTML += `<p>None</p>`;
+        }
+
+      let propertiesHTML = '';
+      if (compendiumData.data.category === 'equipment')
+        if (compendiumData.data.properties) {
+          propertiesHTML += `
+            <h3>Properties</h3>
+            <p>Attack: ${compendiumData.data.properties.attack}</p>
+            <p>Defense: ${compendiumData.data.properties.defense}</p>`;
+        } else {
+          propertiesHTML += `<p>None</p>`;
+        }
+
+      let edibleCreatureHTML = '';
+      if (compendiumData.data.category === 'creatures' && compendiumData.data.edible === true)
+        if (compendiumData.data.edible) {
+          edibleCreatureHTML += `
+            <h3>Hearts Recovered</h3>
+            <p>${compendiumData.data["hearts_recovered"]}</p>`;
+        } else {
+          edibleCreatureHTML += `<p>None</p>`;
+        }
+
+      let materialDataHTML = '';
+      if (compendiumData.data.category === 'materials')
+        if (compendiumData.data["hearts_recovered"] || compendiumData.data["cooking_effect"]) {
+          materialDataHTML += `
+            <h3>Hearts Recovered</h3>
+            <p>${compendiumData.data["hearts_recovered"]}</p>
+            <h3>Cooking Effect</h3>
+            <p>${compendiumData.data["cooking_effect"]}</p>`;
+        } else {
+          materialDataHTML += `<p>None</p>`;
+        }
+
+      document.querySelector('.displayed-entries').innerHTML = `
+        <div class="single-entry-info">
+          <img src="${compendiumData.data.image}" alt="${compendiumData.data.name}" class="entry-image"/>
+          <h3>${compendiumData.data.name}</h3>
+          <p class="description">${compendiumData.data.description}</p>
+        </div>
+        <div class="single-entry-info additional-info">
+          <h3>Common Locations</h3>
+          ${commonLocationsHTML}
+          ${dropsHTML}
+          ${propertiesHTML}
+          ${edibleCreatureHTML}
+          ${materialDataHTML}
+        </div>
+      `;
+
+    })
+    .catch((error) => {
+      console.error(error);
+      document.querySelector('.displayed-entries').innerHTML = `<p class="error-message">${error.message}</p>`;
+
+      hideSpinner();
+    });
+
+  document.querySelector('#search-input').value = '';
+  hideSpinner();
+}
+
+
+
 function displayGallery(){
   fetch(`https://botw-compendium.herokuapp.com/api/v3/compendium/all`)
     .then((response) => response.json())
@@ -123,7 +221,7 @@ function displayGallery(){
       allData.data.forEach((entry) => {
         galleryHTML +=`
           <div class="entry-info">
-            <img src="${entry.image}" alt="${entry.name}" class="entry-image"/>
+            <img src="${entry.image}" alt="${entry.name}" class="entry-image" data-name="${entry.name}"/>
             <h4>${entry.name}</h4>
           </div>
         `
@@ -143,6 +241,14 @@ function displayGallery(){
             hideSpinner();
           }
         };
+
+
+        img.addEventListener('click', (event) => {
+          const entryName = event.target.getAttribute('data-name');
+          getEntryByName(entryName); // Call getEntry with the clicked entry's name
+        });
+
+
       });
 
     })
@@ -162,7 +268,7 @@ function getCreatures(){
       creatureData.data.forEach((creature) => {
         creaturesHTML += `
           <div class="entry-info">
-            <img src="${creature.image}" alt="${creature.name}" class="entry-image"/>
+            <img src="${creature.image}" alt="${creature.name}" class="entry-image" data-name="${creature.name}"/>
             <h6>${creature.id}</h6>
             <h4>${creature.name}</h4>
             <p class="description">${creature.description}</p>
@@ -185,6 +291,12 @@ function getCreatures(){
             hideSpinner();
           }
         };
+
+        img.addEventListener('click', (event) => {
+          const entryName = event.target.getAttribute('data-name');
+          getEntryByName(entryName); // Call getEntry with the clicked entry's name
+        });
+
       });
 
 
@@ -205,7 +317,7 @@ function getMonsters(){
       monsterData.data.forEach((monster) => {
         monstersHTML += `
           <div class="entry-info">
-            <img src="${monster.image}" alt="${monster.name}" class="entry-image"/>
+            <img src="${monster.image}" alt="${monster.name}" class="entry-image" data-name="${monster.name}"/>
             <h6>${monster.id}</h6>
             <h4>${monster.name}</h4>
             <p class="description">${monster.description}</p>
@@ -227,6 +339,12 @@ function getMonsters(){
             hideSpinner();
           }
         };
+
+        img.addEventListener('click', (event) => {
+          const entryName = event.target.getAttribute('data-name');
+          getEntryByName(entryName); // Call getEntry with the clicked entry's name
+        });
+
       });
 
     })
@@ -246,7 +364,7 @@ function getMaterials(){
       monsterData.data.forEach((material) => {
         materialsHTML += `
           <div class="entry-info">
-            <img src="${material.image}" alt="${material.name}" class="entry-image"/>
+            <img src="${material.image}" alt="${material.name}" class="entry-image" data-name="${material.name}"/>
             <h6>${material.id}</h6>
             <h4>${material.name}</h4>
             <p class="description">${material.description}</p>
@@ -268,6 +386,13 @@ function getMaterials(){
             hideSpinner();
           }
         };
+
+        img.addEventListener('click', (event) => {
+          const entryName = event.target.getAttribute('data-name');
+          getEntryByName(entryName); // Call getEntry with the clicked entry's name
+        });
+
+
       });
 
     })
@@ -287,7 +412,7 @@ function getEquipment(){
       equipmentData.data.forEach((item) => {
         equipmentHTML += `
           <div class="entry-info">
-            <img src="${item.image}" alt="${item.name}" class="entry-image"/>
+            <img src="${item.image}" alt="${item.name}" class="entry-image" data-name="${item.name}"/>
             <h6>${item.id}</h6>
             <h4>${item.name}</h4>
             <p class="description">${item.description}</p>
@@ -309,6 +434,13 @@ function getEquipment(){
             hideSpinner();
           }
         };
+
+        img.addEventListener('click', (event) => {
+          const entryName = event.target.getAttribute('data-name');
+          getEntryByName(entryName); // Call getEntry with the clicked entry's name
+        });
+
+
       });
 
     })
@@ -328,7 +460,7 @@ function getTreasure(){
       treasureData.data.forEach((item) => {
         treasureHTML += `
           <div class="entry-info">
-            <img src="${item.image}" alt="${item.name}" class="entry-image"/>
+            <img src="${item.image}" alt="${item.name}" class="entry-image" data-name="${item.name}"/>
             <h6>${item.id}</h6>
             <h4>${item.name}</h4>
             <p class="description">${item.description}</p>
@@ -350,8 +482,15 @@ function getTreasure(){
             hideSpinner();
           }
         };
-      });
 
+
+        img.addEventListener('click', (event) => {
+          const entryName = event.target.getAttribute('data-name');
+          getEntryByName(entryName); // Call getEntry with the clicked entry's name
+        });
+
+
+      });
     })
 }
 
