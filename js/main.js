@@ -182,13 +182,15 @@ function getEntryByName(entryName) {
 
       let nonEdibleCreatureHTML = '';
       if(compendiumData.data.category === 'creatures')
-        nonEdibleCreatureHTML += `<h3>Item Drops</h3>`
-         if (compendiumData.data.drops && compendiumData.data.drops.length > 0) {
-            nonEdibleCreatureHTML += `
-            <p>${compendiumData.data.drops}</p>`;
-          } else {
-            nonEdibleCreatureHTML += `<p>None</p>`;
-          }
+        if (compendiumData.data.drops && compendiumData.data.drops.length > 0) {
+          nonEdibleCreatureHTML += `
+          <h3>Item Drops</h3>
+          <p>${compendiumData.data.drops}</p>`;
+        } else {
+          nonEdibleCreatureHTML += `
+          <h3>Item Drops</h3>
+          <p>None</p>`;
+        }
 
 
 
