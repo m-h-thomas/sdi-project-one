@@ -14,4 +14,4 @@ The MVP has three primary functions
 
 
 ### Single Entry Page
-![Single Entry Page](./images/project-one-entry-page.png "Single Entry Page")
+![Single Entry Page](/images/project-one-entry-page.png "Single Entry Page")
